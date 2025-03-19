@@ -14,31 +14,12 @@
 - 📊 **智能层级管理** - 动态调整跳表层数（最高32层），自适应负载变化
 - 💾 **数据持久化** - 支持内存快照存储与恢复，内置崩溃恢复机制
 - 👁️ **可视化调试** - 终端友好型层级结构展示，调试开发更直观
+  
+无锁跳表的性能测试：
+在 10 线程环境下，插入 1000000 条数据耗时为：405ms
+在 10 线程环境下，搜索 1000000 次数据耗时为： 196ms
+有锁跳表的性能测试：
+在 10 线程环境下，插入 1000000 条数据耗时为：1547ms
+在 10 线程环境下，搜索 1000000 次数据耗时为： 164ms
 
-## 📦 快速入门
-
-### 环境要求
-- JDK 8+
-- Maven/Gradle（可选）
-
-// 初始化跳表（键类型需实现Comparable接口）
-SkipListNoLock<Integer, String> skipList = new SkipListNoLock<>();
-
-// 插入数据（自动去重）
-skipList.insertNode(42, "The Answer");
-skipList.insertNode(7, "Lucky Number");
-
-// 查询数据
-String value = skipList.searchNode(42); // 返回 "The Answer"
-
-// 删除数据
-boolean success = skipList.deleteNode(7); // 返回true
-
-// 数据持久化（存储到./store1文件）
-skipList.dumpFile();
-
-// 从文件加载数据
-skipList.loadFile();
-
-// 可视化展示层级结构
-skipList.displaySkipList();
+可以看出采用锁化设计，极大提高了跳表的读写速度
